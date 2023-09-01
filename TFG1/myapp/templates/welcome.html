@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Bienvenido</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../static/css/main.css'>
+</head> 
+{% extends 'encabezado.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<body>
+    {% if user.is_authenticated %}
+        <h1 class="titulo_principal">Bienvenido, {{user.first_name}}</h1>
+        <div class="background-image" style="background-image: url('../static/1673927639591.png'); opacity: 0.8;padding: 15% 5%;background-size: cover;
+        background-position: center; position: center; margin-left: 20%; margin-right: 20%;"> 
+        </div>
+        
+        <div style="margin-left: 20%; margin-right: 20%; margin-top: 5%;">
+            <p class="normaltext">
+                En la era actual, los datos se han convertido en uno de los recursos más valiosos para las empresas y organizaciones de todo tipo a nivel mundial. 
+                Gracias al avance de la tecnología y la digitalización, se ha generado una enorme cantidad de información muy difícil de gestionar pero que a su vez 
+                tiene mucha importancia poder ser controlada, por ello gestionar y mantener unos niveles de calidad de datos determinados es una tarea de primera 
+                necesidad. </p><p></p>
+            <p class="normaltext">
+                Aparte de optimizar la calidad de los datos y garantizar su correcto funcionamiento, tiene otras grandes ventajas como el ahorro de costes y tiempos 
+                invertidos en la corrección de errores. Según investigaciones recientes el coste medio de la mala calidad de datos es de 10,8 millones de dólares al año. 
+                Resumiendo, los datos son comparables a los cimientos de una casa, sólo si son sólidos y de calidad podemos esperar resistir males mayores y, aunque lleve
+                más tiempo procesarlos y valorarlos, a la larga da muchos beneficios.
+            </p><p></p>
+            <p class="normaltext">
+                Deberá iniciar sesión para poder comenzar a analizar.
+            </p><p></p>
+            
+            <p class="normaltext">
+                Deberá iniciar sesión para poder comenzar a los datos y garantizar su correcto funcionamiento, tiene otras grandes ventajas como el ahorro de costes y tiempos invertidos en la corrección de errores.
+            </p>
+        </div>
+        <div style="margin-bottom: 5%;"></div>
+    {% endif %}
+</body>
+
+{% endblock %}
+</html>

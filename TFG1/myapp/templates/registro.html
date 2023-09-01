@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="titulo_principal">Página de registro</h1>
+
+<form method="POST" class="titulo_principal">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>
+        Registrarse
+    </button>
+    {% if error_message %}
+        <p class="normaltext; margenTop">{{ error_message }}</p>
+    {% endif %}
+</form>
+
+{% endblock %}

@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../static/main.css'>
+</head> 
+{% extends 'encabezado.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<body>
+    
+    <a id="top"></a>  
+    <h1 class="titulo_principal">Resultados del análisis</h1>
+        
+    <div style="margin-left: 150px; margin-right: 150px; margin-bottom: 25px;">
+        <p class="normaltext">
+            Después de un análisis exahustivo de la calidad de los datos, puedes revisar algunos parámetros del documento seleccionado aquí abajo.</p><p></p>
+    </div>
+    
+    <p class="margenTop"></p>
+    <!--<p class="normaltext, margenIzq"> El archivo analizado está compuesto por {{resultado.ncol}} columnas y {{resultado.nfil}} filas.</p>-->
+    <p class="normaltext, margenIzq"> El archivo analizado está compuesto por <span id="valornCol"></span> columnas y <span id="valornFil"></span> filas.</p>
+
+    <!-- ESCRIBIMOS PRIMERO LOS POSIBLES PARÁMETROS QUE EL USUARIO PUEDE REVISAR -->
+
+    <!-- cantNum -->
+
+    <div>
+        <p class="seleccionable margenIzq", onclick="mostrarBoton('cantNum'),mostrarArrayEnPagina(resultadoArray[2], 'tablaCantNum')">- Cantidad de números en las columnas</p>
+        <div id="cantNum" style="display: none; margin-left: 160px;">
+            <table id="tablaCantNum" >
+                <thread></thread>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- medias -->
+    <div>
+        <p class="seleccionable margenIzq", onclick="mostrarBoton('medias'),mostrarArrayEnPagina(resultadoArray[3], 'tablaMedias')">- Medias de las columnas</p>
+        <div id="medias" style="display: none; margin-left: 160px;">
+            <table id="tablaMedias" >
+                <thread></thread>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- valoresMasRepes -->
+    <div>
+        <p class="seleccionable margenIzq", onclick="mostrarBoton('valoresMasRepes'),mostrarArrayEnPagina(resultadoArray[4], 'tablaValoresMasRepes')">- Datos más repetidos (valor más repetido , número de veces que se repite)</p>
+        <div id="valoresMasRepes" style="display: none; margin-left: 160px;">
+            <table id="tablaValoresMasRepes" >
+                <thread></thread>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- completitud -->
+    <div>
+        <p class="seleccionable margenIzq", onclick="mostrarBoton('completitud'), esconderDesplegable('completitud')">- Completitud del documento</p>
+        <div id="completitud" style="display: none; margin-left: 160px;">
+            <p>La completitud del documento es del <span id="valorCompletitud"></span>%, con <span id="valorCeldasVacias"></span> celdas vacias de <span id="valorCeldasTotales"></span> totales. </p>
+        </div>
+    </div>
+
+    <!-- desvTipica -->
+    <div>
+        <p class="seleccionable margenIzq", onclick="mostrarBoton('desvTipica'),mostrarArrayEnPagina(resultadoArray[7], 'tablaDesvTipica')">- Desviación típica de las columnas numéricas</p>
+        <div id="desvTipica" style="display: none; margin-left: 160px;">
+            <table id="tablaDesvTipica" >
+                <thread></thread>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Gráfico de barras -->
+    <div style="width: 400px;">
+        <canvas id="grafico"></canvas>
+    </div>
+
+    <script>
+        
+
+        // Declaracion de variables 
+        var arrayVisible = {
+            tablaCantNum: false,
+            tablaMedias: false,
+            tablaValoresMasRepes: false,
+            completitud: false,
+            tablaDesvTipica: false
+        };
+
+        
+        // Cogemos el resultado del programa externo
+        var resultadoJSON = '{{resultado|escapejs}}';
+        //console.log("resultadoJSON: " + resultadoJSON);
+        var resultadoJSON2 = eval('(' + resultadoJSON + ')');
+        var resultado = resultadoJSON2.resultado;
+        var ncol = resultado.ncol;   
+        var nfil = resultado.nfil;
+        var resultadoArray = JSON.parse(resultado);
+
+        var ncol = resultadoArray[0];
+        var nfil = resultadoArray[1];
+        var completitud = resultadoArray[6][0];
+        var nCeldasVacias = resultadoArray[6][1];
+        var nCeldasTotales = resultadoArray[6][2];
+        console.log(nCeldasVacias);
+
+        console.log(resultadoArray[2]);
+
+
+        var valornColSpan = document.getElementById("valornCol");
+        var valornFilSpan = document.getElementById("valornFil");
+        var valorCompletitudSpan = document.getElementById("valorCompletitud");
+        var valorCeldasVaciasSpan = document.getElementById("valorCeldasVacias");
+        var valorCeldasTotalesSpan = document.getElementById("valorCeldasTotales");
+
+        valornColSpan.textContent = ncol;
+        valornFilSpan.textContent = nfil;
+        valorCompletitudSpan.textContent = completitud;
+        valorCeldasVaciasSpan.textContent = nCeldasVacias;
+        valorCeldasTotalesSpan.textContent = nCeldasTotales;
+
+        //FUNCIONES
+
+
+
+        // Funcion para mostrar los botones de apretura de menus
+        function mostrarBoton(id) {
+            var boton = document.getElementById(id);
+            boton.style.display = "block";
+        }
+
+        // Funcion para mostrar los arrays de cada menu 
+        function mostrarArrayEnPagina(array, id) {
+            var tabla = document.getElementById(id);
+            var tbody = tabla.getElementsByTagName("tbody")[0];
+            tbody.innerHTML = ""; // Limpiar contenido previo
+
+            if (!arrayVisible[id]) {
+                for (var i = 0; i < array.length; i++) {
+                    var fila = document.createElement("tr");
+                    var celdaPosicion = document.createElement("td");
+                    celdaPosicion.textContent = "Columna " + (i + 1) + ": " + array[i];
+                    fila.appendChild(celdaPosicion);
+
+                    tbody.appendChild(fila);
+                }
+                arrayVisible[id] = true;
+                tabla.style.display = "table";
+            } else {
+                arrayVisible[id] = false;
+                tabla.style.display = "none";
+            
+            }
+        }
+
+        function esconderDesplegable(id) {
+            var textoAdicional = document.getElementById(id);
+
+            if (!arrayVisible[id]) {
+                textoAdicional.style.display = "block";
+                arrayVisible[id] = true;
+            } else {
+                textoAdicional.style.display = "none";
+                arrayVisible[id] = false;
+            }
+        }
+
+
+        // Datos para el gráfico de barras
+        var datosGrafico = {
+            labels: ["Dato 1", "Dato 2", "Dato 3", "Dato 4"],
+            datasets: [{
+                label: "Datos de Ejemplo",
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1,
+                data: [10, 20, 5, 15]
+            }]
+        };
+
+        // Configuración del gráfico de barras
+        var configGrafico = {
+            type: 'bar',
+            data: datosGrafico,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        // Crear el gráfico
+        var ctx = document.getElementById("grafico").getContext("2d");
+        new Chart(ctx, configGrafico);
+    </script>
+
+
+
+        <button class="botonarriba" onclick="location.href='#top'">Inicio de página</button>
+        <button class="botonabajo" onclick="location.href='#fin'">Fin de página</button>
+
+        <form method="post" action="{% url 'resultados' %}" class="center margenTop">
+            {% csrf_token %}
+            
+        </form>
+        
+        <a id="fin"></a>  
+    
+    
+</body>
+
+{% endblock %}
+
+</html>

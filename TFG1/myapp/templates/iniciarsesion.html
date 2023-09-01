@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1 class="titulo_principal">Iniciar Sesion</h1>
+
+<form method="POST" class="titulo_principal">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>
+        Iniciar sesión
+    </button>
+    {% if error_message %}
+        <p class="normaltext; margenTop">{{ error_message }}</p>
+    {% endif %}
+    
+            
+</form>
+
+{% endblock %}

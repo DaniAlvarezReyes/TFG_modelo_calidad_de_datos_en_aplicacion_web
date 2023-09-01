@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../static/main.css'>
+</head> 
+{% extends 'encabezado.html' %}
+
+{% load static %}
+
+{% block content %}
+<body>
+    <a id="top"></a>  
+    <h1 class="titulo_principal">Vista previa de archivo Excel</h1>
+        
+    
+    <table class="table">
+        {{ df_html|safe }}
+    </table>
+    <div id="fin"></div>
+    <h2 class="margenIzq margenTop">
+        Para mayor precisión en el analisis del archivo conteste a estas preguntas.
+    <h2>
+    <div style="display: flex;">    
+        <div>
+            <form method="post" action="{% url 'vista_previa' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <p class="tamano18 margenIzq">¿Hay alguna columna que contenga valores calculables?</p>
+                    <form>
+                        <!--<input type="radio" name="valoresCalc" id="hayValores" value="hayValores" class="margenIzq">
+                        <label for="puntocoma" class="tamano14">Si</label><br>
+                        <input type="radio" name="valoresCalc" id="noHayValores" value="noHayValores" class="margenIzq">
+                        <label for="coma" class="tamano14">No</label><br>-->
+                        <label for="texto" class="tamano14 margenIzq">En caso de haberlo, introduzca las posiciones de las columnas con valores calculables</label><br>
+                        <p class="tamano14 margenIzq">¡ El formato debe ser el indice de cada columna teniendo en cuenta que la primera se corresponde al 0
+                            , con comas como separación. Por ejemplo "0,1,4,8" !
+                        </p>
+                        <input type="text" id="columnasCalc" name="columnasCalc" class="margenIzq">
+
+                        <p class="tamano18 margenIzq margenTop">Indica las columnas que formen la primary key</p>
+                        <p class="tamano14 margenIzq">El formato debe ser el mismo que para la anterior celda
+                        </p>
+                        <input type="text" id="primarykey" name="primarykey" class="margenIzq">
+                        <button class="center" type="submit">Cargar</button>
+                    </form>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <button class="botonarriba" onclick="location.href='#top'">Inicio de página</button>
+    <button class="botonabajo" onclick="location.href='#fin'">Fin de página</button>
+
+    <form method="post" action="{% url 'vista_previa' %}" class="center margenTop">
+        {% csrf_token %}
+        
+    </form>
+    
+    <a id="fin"></a>  
+
+    
+</body>
+
+{% endblock %}
+
+</html>

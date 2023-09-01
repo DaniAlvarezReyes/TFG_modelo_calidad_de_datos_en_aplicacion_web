@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Analisis de archivos</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../static/css/main.css'>
+</head> 
+{% extends 'encabezado.html' %}
+
+<title>Subida de archivos</title>
+
+{% load static %}
+
+{% block content %}
+<body>
+    {% if user.is_authenticated %}
+        <h1 class="titulo_principal">Analisis de archivos</h1>
+        <div class="titulo_principal">
+            <p>Introduce tu archivo aquí</p>
+            <form method="post" action="{% url 'upload_files' %}" enctype="multipart/form-data">
+                <input type="file" name="uploaded_files">
+                <div style="margin-top: 5%;">
+                    <p class="tamano14">Introduce el nombre de la hoja en caso de que quieras elegir una en especifico</p>           
+                    <input type="text" id="hoja" name="hoja" class="normaltext">
+                    <div>
+                        <p class="tamano14 center">En caso de CSV, ¿que se utiliza como separación?</p>
+                        <form required="false", method="post">
+                            {% csrf_token %}
+                            <input type="radio" name="separacion" id="puntocoma" value=";" class="center">
+                            <label for="puntocoma" class="tamano14">";"</label><br>
+                            <input type="radio" name="separacion" id="coma" value="," class="center">
+                            <label for="coma" class="tamano14">","</label><br>
+                            <input type="radio" name="separacion" id="tabulacion" value="   " class="center">
+                            <label for="tabulacion" class="tamano14">tab</label><br>
+                            <input type="radio" name="separacion" id="espacioBlank" value=" " class="center">
+                            <label for="espacioBlank" class="tamano14">"   "</label><br>
+                            <button type="submit" style="margin-top: 20px;">Cargar</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </form>
+            
+            {% if error_message %}
+                <p>{{ error_message }}</p>
+            {% endif %}
+            
+            {% if success_message %}
+                <p>{{ success_message }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+</body>
+
+{% endblock %}
+
+</html>

@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body{
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.background-image {
+    position: relative;
+       
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.table th, .table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+.table th {
+    background-color: #f2f2f2;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+.navbar{
+    background: #404040;
+    padding: 10px 100px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 150px;
+    margin-right: 150px;
+    margin-top: 10px;
+    
+}
+
+.navbar ul li {
+    list-style: none;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar ul li a:hover {
+    color: aqua;
+}
+
+.titulo_principal {
+    text-align: center;
+    padding: 50px;
+}
+
+.normaltext {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+
+    
+}
+
+.center {
+    text-align: center;
+}
+
+.imagen {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 5%;
+}
+
+
+.tamano14 {
+    font-size: 14px;
+}
+
+.tamano18 {
+    font-size: 18px;
+}
+
+.margenIzq{
+    text-align: justify;
+    margin-left: 150px;
+}
+
+.margenTop{
+    margin-top: 6%;
+}
+
+.botonarriba {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 99;
+  }
+
+.botonabajo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+}
+
+.ponercentro {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.seleccionable:hover {
+    cursor: pointer;
+    color: aqua;
+}
