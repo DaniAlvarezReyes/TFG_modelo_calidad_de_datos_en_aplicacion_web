@@ -171,32 +171,20 @@ def es_numerico_array():
 
 
 
-
-'''def calcular_desviacion_tipica():
-    desvTipica = np.full(ncol, 0, dtype=float)  #
-    for i in range(ncol):
-        if cantNum[i] != 0:  # Verificamos si la columna es numérica
-            try:
-                desvTipica[i] = df.iloc[:, i].std()  # Calculamos la desviación estándar
-            except:
-                desvTipica[i] = 0
-    return desvTipica.tolist()'''
-
 def calcular_desviacion_tipica():
-    desvTipica = np.full(ncol, np.nan, dtype=float)  # Usamos np.nan para indicar valores no calculados
-    for i in range(ncol):
-        if cantNum[i] != 0:  # Verificamos si hay algún numero en la columna
-            num_values = df.iloc[:, i][np.array(arrNum)[:, i]]  # Filtramos los valores numéricos de la columna
-            desvTipica[i] = num_values.std()  # Calculamos la desviación estándar
-    return desvTipica.tolist()
+    desvTipica = np.full(ncol, 0, dtype=float)  # Usamos np.nan para indicar valores no calculados
 
-'''# Funcion auxiliar para convertir tipos int64 en int para el parseo a JSON
-def convertir_valores_no_serializables_en_serializables(value):
-    if isinstance(value, np.int64):
-        return int(value)
-    elif isinstance(value, pd.Timestamp):
-        return value.strftime('%Y-%m-%d')
-    return value'''
+    for i in range(ncol):
+        try:
+            if cantNum[i] != 0:  # Verificamos si hay algún numero en la columna
+                num_values = df.iloc[:, i][np.array(arrNum)[:, i]]  # Filtramos los valores numéricos de la columna
+                desvTipica[i] = num_values.std()  # Calculamos la desviación estándar
+        except:
+            desvTipica[i] = 0
+    return desvTipica.tolist()
+    
+
+
 def convertir_valores_no_serializables_en_serializables(value):
     if isinstance(value, datetime):
         return value.strftime('%Y-%m-%d')  # Convertir datetime a formato ISO 8601
@@ -214,6 +202,44 @@ def convertir_valores_no_serializables_en_serializables(value):
         return str(value)  # Convertir números complejos a strings
     else:
         return value
+
+
+def mediaGeneral():
+    if (len(medias) == 0):
+        return 0; #Devuelve 0 si el array está vacío para evitar la división por cero.
+    suma = sum(medias)
+    media = suma / len(medias)
+    return media
+
+def obtener_tipos_de_datos():
+    tipos_de_datos = []
+
+    for fila in df.values:
+        fila_tipos = []
+
+        for valor in fila:
+            tipo = type(valor)
+            if tipo == int:
+                fila_tipos.append("Integer")
+            elif tipo == float:
+                fila_tipos.append("Float")
+            elif tipo == str:
+                fila_tipos.append("String")
+            elif tipo == bool:
+                fila_tipos.append("Booleano")
+            elif tipo == pd.Timestamp:
+                fila_tipos.append("Fecha")
+            elif tipo == np.datetime64:
+                fila_tipos.append("Fecha")
+            elif tipo == datetime:
+                fila_tipos.append("Fecha")
+            else:
+                fila_tipos.append(str(tipo))  # Otros tipos de datos
+
+        tipos_de_datos.append(fila_tipos)
+
+    return tipos_de_datos
+
 
 #---------------------------------------------------------------------------------------------MAIN-------------------------------------------------------------------------------------
 
@@ -244,6 +270,8 @@ if __name__ == "__main__":
         gradoCompletitud = calcularCompletitud()        # GRADO DE COMMPLETITUD COMPARANDO CELDAS VACÍAS CON EL TOTAL DE CELDAS
         datosRepetidos = valoresRepetidos()             # CUANTAS VECES SE REPITE CADA VALOR EN CADA COLUMNA
         medias = calcularMedia()                        # MEDIA DE LAS COLUMNAS NUMÉRICAS
+        mediadeMedias = mediaGeneral()                  # MEDIA DE MEDIAS
+        tipoDatos = obtener_tipos_de_datos()
         #NO BORRAR
 
         # Cambiar los valores de int64 a int en la variable valoresMasRepes
@@ -264,14 +292,9 @@ if __name__ == "__main__":
         processed_array.append(numceldasVacias)
         processed_array.append(gradoCompletitud)
         processed_array.append(desvTipica)
-        '''processed_array.append(valoresMasRepes)
-        processed_array.append(arrayNumNanCol)
-        processed_array.append(cantNum.tolist())
-        processed_array.append(gradoCompletitud)
-        processed_array.append(desvTipica)
-        processed_array.append(datosRepetidos)'''
-        #processed_array.append(datosMasRepes)
-
+        processed_array.append(mediadeMedias)
+        processed_array.append(tipoDatos)
+        processed_array.append(df.columns.tolist())
         
             
         

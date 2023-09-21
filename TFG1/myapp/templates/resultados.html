@@ -7,7 +7,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='../static/main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../static/css/main.css'>
 </head> 
 {% extends 'encabezado.html' %}
 
@@ -21,23 +21,29 @@
     <a id="top"></a>  
     <h1 class="titulo_principal">Resultados del análisis</h1>
         
-    <div style="margin-left: 150px; margin-right: 150px; margin-bottom: 25px;">
-        <p class="normaltext">
-            Después de un análisis exahustivo de la calidad de los datos, puedes revisar algunos parámetros del documento seleccionado aquí abajo.</p><p></p>
+    
+
+    <!--<p style="margin-left: 150px; margin-top: 50px;"> Podemos estimar la calidad del archivo en un 50%</p>-->
+    <p style="text-align: center; margin-top: 0px;"> Podemos estimar la calidad del archivo en un 80%</p>
+    <div class="progress-container">
+        <div class="progress-bar" id="myProgressBar"></div>
     </div>
     
-    <p class="margenTop"></p>
-    <!--<p class="normaltext, margenIzq"> El archivo analizado está compuesto por {{resultado.ncol}} columnas y {{resultado.nfil}} filas.</p>-->
-    <p class="normaltext, margenIzq"> El archivo analizado está compuesto por <span id="valornCol"></span> columnas y <span id="valornFil"></span> filas.</p>
+    <p style="margin-top: 70px;"></p>
+    <p style="text-align: center;"> El archivo analizado está compuesto por <span id="valornCol"></span> columnas y <span id="valornFil"></span> filas.</p>
 
     <!-- ESCRIBIMOS PRIMERO LOS POSIBLES PARÁMETROS QUE EL USUARIO PUEDE REVISAR -->
+
+    
+
+
 
     <!-- cantNum -->
 
     <div>
-        <p class="seleccionable margenIzq", onclick="mostrarBoton('cantNum'),mostrarArrayEnPagina(resultadoArray[2], 'tablaCantNum')">- Cantidad de números en las columnas</p>
-        <div id="cantNum" style="display: none; margin-left: 160px;">
-            <table id="tablaCantNum" >
+        <p class="seleccionable" style="text-align: center;", onclick="mostrarBoton('cantNum'),mostrarArrayEnPagina(resultadoArray[2], 'tablaCantNum')">- Cantidad de números en las columnas</p>
+        <div id="cantNum">
+            <table id="tablaCantNum" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
                 </tbody>
@@ -47,9 +53,9 @@
 
     <!-- medias -->
     <div>
-        <p class="seleccionable margenIzq", onclick="mostrarBoton('medias'),mostrarArrayEnPagina(resultadoArray[3], 'tablaMedias')">- Medias de las columnas</p>
-        <div id="medias" style="display: none; margin-left: 160px;">
-            <table id="tablaMedias" >
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('medias'),mostrarArrayEnPagina(resultadoArray[3], 'tablaMedias')">- Medias de las columnas</p>
+        <div id="medias" >
+            <table id="tablaMedias" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
                 </tbody>
@@ -59,9 +65,9 @@
 
     <!-- valoresMasRepes -->
     <div>
-        <p class="seleccionable margenIzq", onclick="mostrarBoton('valoresMasRepes'),mostrarArrayEnPagina(resultadoArray[4], 'tablaValoresMasRepes')">- Datos más repetidos (valor más repetido , número de veces que se repite)</p>
-        <div id="valoresMasRepes" style="display: none; margin-left: 160px;">
-            <table id="tablaValoresMasRepes" >
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('valoresMasRepes'),mostrarArrayEnPagina(resultadoArray[4], 'tablaValoresMasRepes')">- Datos más repetidos (valor más repetido , número de veces que se repite)</p>
+        <div id="valoresMasRepes">
+            <table id="tablaValoresMasRepes" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
                 </tbody>
@@ -71,17 +77,17 @@
 
     <!-- completitud -->
     <div>
-        <p class="seleccionable margenIzq", onclick="mostrarBoton('completitud'), esconderDesplegable('completitud')">- Completitud del documento</p>
-        <div id="completitud" style="display: none; margin-left: 160px;">
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('completitud'), esconderDesplegable('completitud')">- Completitud del documento</p>
+        <div id="completitud" style="display: none; text-align: center;">
             <p>La completitud del documento es del <span id="valorCompletitud"></span>%, con <span id="valorCeldasVacias"></span> celdas vacias de <span id="valorCeldasTotales"></span> totales. </p>
         </div>
     </div>
 
     <!-- desvTipica -->
     <div>
-        <p class="seleccionable margenIzq", onclick="mostrarBoton('desvTipica'),mostrarArrayEnPagina(resultadoArray[7], 'tablaDesvTipica')">- Desviación típica de las columnas numéricas</p>
-        <div id="desvTipica" style="display: none; margin-left: 160px;">
-            <table id="tablaDesvTipica" >
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('desvTipica'),mostrarArrayEnPagina(resultadoArray[7], 'tablaDesvTipica')">- Desviación típica de las columnas numéricas</p>
+        <div id="desvTipica" >
+            <table id="tablaDesvTipica" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
                 </tbody>
@@ -89,6 +95,40 @@
         </div>
     </div>
 
+    <!-- mediaDeMedias -->
+    <div>
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('mediaDeMedias'),esconderDesplegable('mediaDeMedias')">- Media de todos los números del fichero</p>
+        <div id="mediaDeMedias" style="display: none; margin-left: 600px;">
+            <p>La media de todos los números del documento es de <span id="valorMediaDeMedias"></span> </p>
+        </div>
+    </div>
+
+    <!-- tipoDatos -->
+    <div>
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('tipoDatos'),mostrarArrayDimDataframeEnPagina(resultadoArray[9], 'tablaTipoDatos')">- Tipo de datos de las columnas</p>
+        <div id="tipoDatos"> <!--style="display: none; margin-left: 800px;">-->
+            <table id="tablaTipoDatos" class="centrar_tabla">
+                <thread></thread>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--<p style="margin-left: 150px; margin-top: 100px; position: relative;"> Clickando este botón podrás ver una serie de warnings del fichero</p>-->
+    
+    <button id="warningButton" style="margin-left: 47%; margin-top: 50px; display:inline-block; border:none" >
+        <img src="{% static 'warning3.png' %}" alt="Warning Icon" style="width: 100px; height: 100px" />
+        
+    </button>
+
+    <div id="warningText" class="hidden" style="margin-left: 150px;">
+        <ul>
+            <li>Texto de advertencia 1</li>
+            <li>Texto de advertencia 2</li>
+            <li>Texto de advertencia 3</li>
+        </ul>
+    </div>
 
     <!-- Gráfico de barras -->
     <div style="width: 400px;">
@@ -104,13 +144,14 @@
             tablaMedias: false,
             tablaValoresMasRepes: false,
             completitud: false,
-            tablaDesvTipica: false
+            tablaDesvTipica: false,
+            mediaDeMedias: false,
+            tablaTipoDatos: false
         };
 
         
         // Cogemos el resultado del programa externo
         var resultadoJSON = '{{resultado|escapejs}}';
-        //console.log("resultadoJSON: " + resultadoJSON);
         var resultadoJSON2 = eval('(' + resultadoJSON + ')');
         var resultado = resultadoJSON2.resultado;
         var ncol = resultado.ncol;   
@@ -122,7 +163,8 @@
         var completitud = resultadoArray[6][0];
         var nCeldasVacias = resultadoArray[6][1];
         var nCeldasTotales = resultadoArray[6][2];
-        console.log(nCeldasVacias);
+        var nMediaDeMedias = resultadoArray[8];
+        console.log("ncol", ncol);
 
         console.log(resultadoArray[2]);
 
@@ -132,12 +174,14 @@
         var valorCompletitudSpan = document.getElementById("valorCompletitud");
         var valorCeldasVaciasSpan = document.getElementById("valorCeldasVacias");
         var valorCeldasTotalesSpan = document.getElementById("valorCeldasTotales");
+        var valorMediaDeMediasSpan = document.getElementById("valorMediaDeMedias");
 
         valornColSpan.textContent = ncol;
         valornFilSpan.textContent = nfil;
         valorCompletitudSpan.textContent = completitud;
         valorCeldasVaciasSpan.textContent = nCeldasVacias;
         valorCeldasTotalesSpan.textContent = nCeldasTotales;
+        valorMediaDeMediasSpan.textContent = nMediaDeMedias;
 
         //FUNCIONES
 
@@ -149,19 +193,27 @@
             boton.style.display = "block";
         }
 
-        // Funcion para mostrar los arrays de cada menu 
-        function mostrarArrayEnPagina(array, id) {
+        function mostrarArrayDimDataframeEnPagina(array, id) {
             var tabla = document.getElementById(id);
             var tbody = tabla.getElementsByTagName("tbody")[0];
             tbody.innerHTML = ""; // Limpiar contenido previo
 
             if (!arrayVisible[id]) {
+                var fila = document.createElement("tr");
+                for (var i = 1; i < resultadoArray[10].length; i++) {       // Empieza desde el 1 para corregir error de index
+                    var celda = document.createElement("td");
+                    celda.textContent = resultadoArray[10][i];
+                    fila.appendChild(celda);
+                }
+                tbody.appendChild(fila);
+
                 for (var i = 0; i < array.length; i++) {
                     var fila = document.createElement("tr");
-                    var celdaPosicion = document.createElement("td");
-                    celdaPosicion.textContent = "Columna " + (i + 1) + ": " + array[i];
-                    fila.appendChild(celdaPosicion);
-
+                    for (var j = 1; j < array[i].length; j++) {     // Empieza desde el 1 para corregir error de index
+                        var celda = document.createElement("td");
+                        celda.textContent = array[i][j];
+                        fila.appendChild(celda);
+                    }
                     tbody.appendChild(fila);
                 }
                 arrayVisible[id] = true;
@@ -169,9 +221,82 @@
             } else {
                 arrayVisible[id] = false;
                 tabla.style.display = "none";
-            
             }
         }
+
+
+        /* COMENTADO PQ LE FALTA QUE LAS COLUMNAS APAREZCAN ARRIBA
+        function mostrarArrayEnPagina(array, id) {
+            var tabla = document.getElementById(id);
+            var tbody = tabla.getElementsByTagName("tbody")[0];
+            tbody.innerHTML = ""; // Limpiar contenido previo
+            
+            var contFila = 0;
+
+            if (!arrayVisible[id]) {
+                var fila = document.createElement("tr");
+                for (var i = 1; i < resultadoArray[10].length; i++) {       // Empieza desde el 1 para corregir error de index
+                    contFila+=1;
+                    if(contFila==13) {
+                        var fila = document.createElement("tr");
+                        contFila = 0
+                    }
+                    var celda = document.createElement("td");
+                    celda.textContent = resultadoArray[10][i] + "  " + array[i];
+                    fila.appendChild(celda);
+                    tbody.appendChild(fila);
+                }
+                tbody.appendChild(fila);
+
+                
+                arrayVisible[id] = true;
+                tabla.style.display = "table";
+            } else {
+                arrayVisible[id] = false;
+                tabla.style.display = "none";
+            }
+        }
+*/
+
+
+        function mostrarArrayEnPagina(array, id) {
+            var tabla = document.getElementById(id);
+            var tbody = tabla.getElementsByTagName("tbody")[0];
+            tbody.innerHTML = ""; // Limpiar contenido previo
+            
+            var contFila = 0;
+
+            if (!arrayVisible[id]) {
+
+                // Insertamos indice de tabla
+                
+                for (var j = 0; j < 2; j++) {
+                    var fila = document.createElement("tr");
+                    for (var i = 1; i < resultadoArray[10].length; i++) {       // Empieza desde el 1 para corregir error de index
+                        if(j==0){                                               // Insertamos indice de columnas
+                            var celda = document.createElement("td");
+                            celda.textContent = resultadoArray[10][i];
+                            fila.appendChild(celda);
+                            tbody.appendChild(fila);
+                        } else {
+                            var celda = document.createElement("td");
+                            celda.textContent = array[i];
+                            fila.appendChild(celda);
+                            tbody.appendChild(fila);
+                        }
+                        
+                    }
+                }
+
+                
+                arrayVisible[id] = true;
+                tabla.style.display = "table";
+            } else {
+                arrayVisible[id] = false;
+                tabla.style.display = "none";
+            }
+        }
+
 
         function esconderDesplegable(id) {
             var textoAdicional = document.getElementById(id);
@@ -185,6 +310,26 @@
             }
         }
 
+        // Función para actualizar la barra de progreso con un valor entre 1 y 100
+        
+        function updateProgressBar(value) {
+            const progressBar = document.getElementById("myProgressBar");
+            progressBar.style.width = value + "%";
+        }
+
+        // Ejemplo de uso: actualizar la barra de progreso con un valor específico
+        updateProgressBar(80); 
+
+
+        // Función para mostrar u ocultar la lista de textos de advertencia
+        function toggleWarningText() {
+            const warningText = document.getElementById("warningText");
+            warningText.classList.toggle("hidden");
+        }
+
+        // Agregar un evento clic al botón de advertencia
+        const warningButton = document.getElementById("warningButton");
+        warningButton.addEventListener("click", toggleWarningText);
 
         // Datos para el gráfico de barras
         var datosGrafico = {
