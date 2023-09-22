@@ -24,7 +24,7 @@
     
 
     <!--<p style="margin-left: 150px; margin-top: 50px;"> Podemos estimar la calidad del archivo en un 50%</p>-->
-    <p style="text-align: center; margin-top: 0px;"> Podemos estimar la calidad del archivo en un 80%</p>
+    <p style="text-align: center; margin-top: 0px;"> Podemos estimar la calidad del archivo en un <span id="valorCalidad"></span> %</p>
     <div class="progress-container">
         <div class="progress-bar" id="myProgressBar"></div>
     </div>
@@ -41,8 +41,11 @@
     <!-- cantNum -->
 
     <div>
-        <p class="seleccionable" style="text-align: center;", onclick="mostrarBoton('cantNum'),mostrarArrayEnPagina(resultadoArray[2], 'tablaCantNum')">- Cantidad de números en las columnas</p>
-        <div id="cantNum">
+        <p class="seleccionable" style="text-align: center;", onclick="mostrarBoton('cantNum'),mostrarArrayEnPagina(resultadoArray[2], 'cantNum')">- Cantidad de números en las columnas</p>
+        <div id="cantNum" style="display: none;">
+            <p class="margenIzq"> Introduzca un número de columna para visualizarla</p>
+            <input type="number" id="inputCantNum" placeholder="Número de columna" class="margenIzq" style="margin-bottom: 50px;">
+            <button onclick="mostrarColumna('tablaCantNum', 'inputCantNum')">Mostrar</button>
             <table id="tablaCantNum" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
@@ -53,8 +56,11 @@
 
     <!-- medias -->
     <div>
-        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('medias'),mostrarArrayEnPagina(resultadoArray[3], 'tablaMedias')">- Medias de las columnas</p>
-        <div id="medias" >
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('medias'),mostrarArrayEnPagina(resultadoArray[3], 'medias')">- Medias de las columnas</p>
+        <div id="medias" style="display: none;">
+            <p class="margenIzq"> Introduzca un número de columna para visualizarla</p>
+            <input type="number" id="inputMedias" placeholder="Número de columna" class="margenIzq" style="margin-bottom: 50px;">
+            <button onclick="mostrarColumna('tablaMedias', 'inputMedias')">Mostrar</button>
             <table id="tablaMedias" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
@@ -65,8 +71,11 @@
 
     <!-- valoresMasRepes -->
     <div>
-        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('valoresMasRepes'),mostrarArrayEnPagina(resultadoArray[4], 'tablaValoresMasRepes')">- Datos más repetidos (valor más repetido , número de veces que se repite)</p>
-        <div id="valoresMasRepes">
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('valoresMasRepes'),mostrarArrayEnPagina(resultadoArray[4], 'valoresMasRepes')">- Datos más repetidos (valor más repetido , número de veces que se repite)</p>
+        <div id="valoresMasRepes" style="display: none;">
+            <p class="margenIzq"> Introduzca un número de columna para visualizarla</p>
+            <input type="number" id="inputValoresMasRepes" placeholder="Número de columna" class="margenIzq" style="margin-bottom: 50px;">
+            <button onclick="mostrarColumna('tablaValoresMasRepes', 'inputValoresMasRepes')">Mostrar</button>
             <table id="tablaValoresMasRepes" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
@@ -85,8 +94,11 @@
 
     <!-- desvTipica -->
     <div>
-        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('desvTipica'),mostrarArrayEnPagina(resultadoArray[7], 'tablaDesvTipica')">- Desviación típica de las columnas numéricas</p>
-        <div id="desvTipica" >
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('desvTipica'),mostrarArrayEnPagina(resultadoArray[7], 'desvTipica')">- Desviación típica de las columnas numéricas</p>
+        <div id="desvTipica" style="display: none;">
+            <p class="margenIzq"> Introduzca un número de columna para visualizarla</p>
+            <input type="number" id="inputdesvTipica" placeholder="Número de columna" class="margenIzq" style="margin-bottom: 50px;">
+            <button onclick="mostrarColumna('tablaDesvTipica', 'inputdesvTipica')">Mostrar</button>
             <table id="tablaDesvTipica" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
@@ -105,8 +117,11 @@
 
     <!-- tipoDatos -->
     <div>
-        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('tipoDatos'),mostrarArrayDimDataframeEnPagina(resultadoArray[9], 'tablaTipoDatos')">- Tipo de datos de las columnas</p>
-        <div id="tipoDatos"> <!--style="display: none; margin-left: 800px;">-->
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('tipoDatos'),mostrarArrayDimDataframeEnPagina(resultadoArray[9], 'tipoDatos')">- Tipo de datos de las columnas</p>
+        <div id="tipoDatos" style="display: none;">
+            <p class="margenIzq"> Introduzca un número de columna para visualizarla</p>
+            <input type="number" id="inputTipoDatos" placeholder="Número de columna" class="margenIzq" style="margin-bottom: 50px;">
+            <button onclick="mostrarColumna('tablaTipoDatos', 'inputTipoDatos')">Mostrar</button>
             <table id="tablaTipoDatos" class="centrar_tabla">
                 <thread></thread>
                 <tbody>
@@ -140,13 +155,13 @@
 
         // Declaracion de variables 
         var arrayVisible = {
-            tablaCantNum: false,
-            tablaMedias: false,
-            tablaValoresMasRepes: false,
+            cantNum: false,
+            medias: false,
+            valoresMasRepes: false,
             completitud: false,
-            tablaDesvTipica: false,
+            desvTipica: false,
             mediaDeMedias: false,
-            tablaTipoDatos: false
+            tipoDatos: false
         };
 
         
@@ -164,6 +179,7 @@
         var nCeldasVacias = resultadoArray[6][1];
         var nCeldasTotales = resultadoArray[6][2];
         var nMediaDeMedias = resultadoArray[8];
+        var calidad = resultadoArray[11];
         console.log("ncol", ncol);
 
         console.log(resultadoArray[2]);
@@ -175,6 +191,7 @@
         var valorCeldasVaciasSpan = document.getElementById("valorCeldasVacias");
         var valorCeldasTotalesSpan = document.getElementById("valorCeldasTotales");
         var valorMediaDeMediasSpan = document.getElementById("valorMediaDeMedias");
+        var valorCalidadSpan = document.getElementById("valorCalidad");
 
         valornColSpan.textContent = ncol;
         valornFilSpan.textContent = nfil;
@@ -182,6 +199,7 @@
         valorCeldasVaciasSpan.textContent = nCeldasVacias;
         valorCeldasTotalesSpan.textContent = nCeldasTotales;
         valorMediaDeMediasSpan.textContent = nMediaDeMedias;
+        valorCalidadSpan.textContent = calidad
 
         //FUNCIONES
 
@@ -225,40 +243,6 @@
         }
 
 
-        /* COMENTADO PQ LE FALTA QUE LAS COLUMNAS APAREZCAN ARRIBA
-        function mostrarArrayEnPagina(array, id) {
-            var tabla = document.getElementById(id);
-            var tbody = tabla.getElementsByTagName("tbody")[0];
-            tbody.innerHTML = ""; // Limpiar contenido previo
-            
-            var contFila = 0;
-
-            if (!arrayVisible[id]) {
-                var fila = document.createElement("tr");
-                for (var i = 1; i < resultadoArray[10].length; i++) {       // Empieza desde el 1 para corregir error de index
-                    contFila+=1;
-                    if(contFila==13) {
-                        var fila = document.createElement("tr");
-                        contFila = 0
-                    }
-                    var celda = document.createElement("td");
-                    celda.textContent = resultadoArray[10][i] + "  " + array[i];
-                    fila.appendChild(celda);
-                    tbody.appendChild(fila);
-                }
-                tbody.appendChild(fila);
-
-                
-                arrayVisible[id] = true;
-                tabla.style.display = "table";
-            } else {
-                arrayVisible[id] = false;
-                tabla.style.display = "none";
-            }
-        }
-*/
-
-
         function mostrarArrayEnPagina(array, id) {
             var tabla = document.getElementById(id);
             var tbody = tabla.getElementsByTagName("tbody")[0];
@@ -298,6 +282,23 @@
         }
 
 
+        function mostrarColumna(tablaId, inputId) {
+            var tabla = document.getElementById(tablaId);
+            var columna = document.getElementById(inputId).value;
+            var filas = tabla.getElementsByTagName("tr");
+
+            for (var i = 0; i < filas.length; i++) {
+                var celdas = filas[i].getElementsByTagName("td");
+                for (var j = 0; j < celdas.length; j++) {
+                    if (j == columna-1) {
+                        celdas[j].style.display = "table-cell";
+                    } else {
+                        celdas[j].style.display = "none";
+                    }
+                }
+            }
+        }
+
         function esconderDesplegable(id) {
             var textoAdicional = document.getElementById(id);
 
@@ -318,7 +319,7 @@
         }
 
         // Ejemplo de uso: actualizar la barra de progreso con un valor específico
-        updateProgressBar(80); 
+        updateProgressBar(calidad); 
 
 
         // Función para mostrar u ocultar la lista de textos de advertencia

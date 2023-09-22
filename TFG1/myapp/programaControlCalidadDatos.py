@@ -240,6 +240,18 @@ def obtener_tipos_de_datos():
 
     return tipos_de_datos
 
+def calcularCalidad():
+    nDiferentesTipos = 0
+    for i in range(ncol):
+        if(mismoTipo[i] == False):
+            nDiferentesTipos += 1
+    porcentajeMismoTipo = nDiferentesTipos/ncol
+
+    calidad = gradoCompletitud[0] 
+    y = calidad * porcentajeMismoTipo/2
+    calidad -= y
+    return calidad
+
 
 #---------------------------------------------------------------------------------------------MAIN-------------------------------------------------------------------------------------
 
@@ -271,7 +283,9 @@ if __name__ == "__main__":
         datosRepetidos = valoresRepetidos()             # CUANTAS VECES SE REPITE CADA VALOR EN CADA COLUMNA
         medias = calcularMedia()                        # MEDIA DE LAS COLUMNAS NUMÉRICAS
         mediadeMedias = mediaGeneral()                  # MEDIA DE MEDIAS
-        tipoDatos = obtener_tipos_de_datos()
+        tipoDatos = obtener_tipos_de_datos()            # TIPOS DE DATOS DEL DATAFRAME COMPLETO
+        mismoTipo = comprobarTipo()                     # ARRAY BOOLEANO PARA SABER SI LA COLUMNA ES DEL MISMO TIPO O NO
+        calidad = calcularCalidad()                     # PORCENTAJE DE CALIIDAD DEL FICHERO
         #NO BORRAR
 
         # Cambiar los valores de int64 a int en la variable valoresMasRepes
@@ -295,6 +309,7 @@ if __name__ == "__main__":
         processed_array.append(mediadeMedias)
         processed_array.append(tipoDatos)
         processed_array.append(df.columns.tolist())
+        processed_array.append(calidad)
         
             
         
