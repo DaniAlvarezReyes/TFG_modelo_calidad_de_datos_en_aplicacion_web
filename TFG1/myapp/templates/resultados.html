@@ -71,7 +71,7 @@
 
     <!-- valoresMasRepes -->
     <div>
-        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('valoresMasRepes'),mostrarArrayEnPagina(resultadoArray[4], 'valoresMasRepes')">- Datos más repetidos (valor más repetido , número de veces que se repite)</p>
+        <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('valoresMasRepes'),mostrarArray3FilasEnPagina(resultadoArray[4], 'valoresMasRepes')">- Datos más repetidos (valor más repetido , número de veces que se repite)</p>
         <div id="valoresMasRepes" style="display: none;">
             <p class="margenIzq"> Introduzca un número de columna para visualizarla</p>
             <input type="number" id="inputValoresMasRepes" placeholder="Número de columna" class="margenIzq" style="margin-bottom: 50px;">
@@ -108,13 +108,14 @@
     </div>
 
     <!-- mediaDeMedias -->
+    <!--
     <div>
         <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('mediaDeMedias'),esconderDesplegable('mediaDeMedias')">- Media de todos los números del fichero</p>
         <div id="mediaDeMedias" style="display: none; margin-left: 600px;">
             <p>La media de todos los números del documento es de <span id="valorMediaDeMedias"></span> </p>
         </div>
     </div>
-
+-->
     <!-- tipoDatos -->
     <div>
         <p class="seleccionable", style="text-align: center;", onclick="mostrarBoton('tipoDatos'),mostrarArrayDimDataframeEnPagina(resultadoArray[9], 'tipoDatos')">- Tipo de datos de las columnas</p>
@@ -138,17 +139,9 @@
     </button>
 
     <div id="warningText" class="hidden" style="margin-left: 150px;">
-        <ul>
-            <li>Texto de advertencia 1</li>
-            <li>Texto de advertencia 2</li>
-            <li>Texto de advertencia 3</li>
-        </ul>
+        
     </div>
 
-    <!-- Gráfico de barras -->
-    <div style="width: 400px;">
-        <canvas id="grafico"></canvas>
-    </div>
 
     <script>
         
@@ -180,9 +173,10 @@
         var nCeldasTotales = resultadoArray[6][2];
         var nMediaDeMedias = resultadoArray[8];
         var calidad = resultadoArray[11];
-        console.log("ncol", ncol);
+        var nDiferentesTipos = resultadoArray[12];
 
-        console.log(resultadoArray[2]);
+        console.log(nDiferentesTipos);
+        console.log(ncol);
 
 
         var valornColSpan = document.getElementById("valornCol");
@@ -190,7 +184,7 @@
         var valorCompletitudSpan = document.getElementById("valorCompletitud");
         var valorCeldasVaciasSpan = document.getElementById("valorCeldasVacias");
         var valorCeldasTotalesSpan = document.getElementById("valorCeldasTotales");
-        var valorMediaDeMediasSpan = document.getElementById("valorMediaDeMedias");
+        //var valorMediaDeMediasSpan = document.getElementById("valorMediaDeMedias");
         var valorCalidadSpan = document.getElementById("valorCalidad");
 
         valornColSpan.textContent = ncol;
@@ -198,7 +192,7 @@
         valorCompletitudSpan.textContent = completitud;
         valorCeldasVaciasSpan.textContent = nCeldasVacias;
         valorCeldasTotalesSpan.textContent = nCeldasTotales;
-        valorMediaDeMediasSpan.textContent = nMediaDeMedias;
+        //valorMediaDeMediasSpan.textContent = nMediaDeMedias;
         valorCalidadSpan.textContent = calidad
 
         //FUNCIONES
@@ -247,13 +241,8 @@
             var tabla = document.getElementById(id);
             var tbody = tabla.getElementsByTagName("tbody")[0];
             tbody.innerHTML = ""; // Limpiar contenido previo
-            
-            var contFila = 0;
 
             if (!arrayVisible[id]) {
-
-                // Insertamos indice de tabla
-                
                 for (var j = 0; j < 2; j++) {
                     var fila = document.createElement("tr");
                     for (var i = 1; i < resultadoArray[10].length; i++) {       // Empieza desde el 1 para corregir error de index
@@ -268,11 +257,8 @@
                             fila.appendChild(celda);
                             tbody.appendChild(fila);
                         }
-                        
                     }
                 }
-
-                
                 arrayVisible[id] = true;
                 tabla.style.display = "table";
             } else {
@@ -280,6 +266,43 @@
                 tabla.style.display = "none";
             }
         }
+
+
+        function mostrarArray3FilasEnPagina(array, id) {
+            var tabla = document.getElementById(id);
+            var tbody = tabla.getElementsByTagName("tbody")[0];
+            tbody.innerHTML = ""; // Limpiar contenido previo
+
+            if (!arrayVisible[id]) {
+                for (var j = 0; j < 3; j++) {
+                    var fila = document.createElement("tr");
+                    for (var i = 1; i < resultadoArray[10].length; i++) {       // Empieza desde el 1 para corregir error de index
+                        if(j==0){                                               // Insertamos indice de columnas
+                            var celda = document.createElement("td");
+                            celda.textContent = resultadoArray[10][i];
+                            fila.appendChild(celda);
+                            tbody.appendChild(fila);
+                        } else if (j==1){
+                            var celda = document.createElement("td");
+                            celda.textContent = array[i][0];
+                            fila.appendChild(celda);
+                            tbody.appendChild(fila);
+                        } else if (j==2){
+                            var celda = document.createElement("td");
+                            celda.textContent = array[i][1];
+                            fila.appendChild(celda);
+                            tbody.appendChild(fila);
+                        }
+                    }
+                }
+                arrayVisible[id] = true;
+                tabla.style.display = "table";
+            } else {
+                arrayVisible[id] = false;
+                tabla.style.display = "none";
+            }
+        }
+
 
 
         function mostrarColumna(tablaId, inputId) {
@@ -318,13 +341,41 @@
             progressBar.style.width = value + "%";
         }
 
-        // Ejemplo de uso: actualizar la barra de progreso con un valor específico
+        // Actualizar la barra de progreso con un valor específico
         updateProgressBar(calidad); 
 
 
         // Función para mostrar u ocultar la lista de textos de advertencia
         function toggleWarningText() {
             const warningText = document.getElementById("warningText");
+            var hayAdvertencia = false;
+            var mensajes = ""; // Variable para almacenar los mensajes
+
+            if (completitud < 50) {
+                mensajes += "<li>¡Cuidado con el nivel de completitud, es muy bajo!</li>";
+                hayAdvertencia = true;
+            }
+
+            if (nDiferentesTipos > (ncol - 1) / 2) {
+                mensajes += "<li>¡Más de la mitad de las columnas tienen diferentes tipos de datos!</li>";
+                hayAdvertencia = true;
+            }
+            nValoresRepesMuyAltos = valoresRepesMuyAltos(resultadoArray[4])
+            if (nValoresRepesMuyAltos.length > 0) {
+                mensajes += "<li>Valores repetidos muy altos en columnas: ";
+                for (var i = 0; i < nValoresRepesMuyAltos.length; i++) {
+                    mensajes += `Columna ${nValoresRepesMuyAltos[i].numeroColumna} (${nValoresRepesMuyAltos[i].valor}), `;
+                }
+                mensajes = mensajes.slice(0, -2); // Elimina la última coma y el espacio
+                mensajes += ". </li>";
+                hayAdvertencia = true;
+            }
+            if (hayAdvertencia) {
+                warningText.innerHTML = "<ul>" + mensajes + "</ul>";
+            } else {
+                warningText.innerHTML = "No hay ninguna advertencia"; // Limpia el contenido si no hay advertencias
+            }
+
             warningText.classList.toggle("hidden");
         }
 
@@ -332,34 +383,27 @@
         const warningButton = document.getElementById("warningButton");
         warningButton.addEventListener("click", toggleWarningText);
 
-        // Datos para el gráfico de barras
-        var datosGrafico = {
-            labels: ["Dato 1", "Dato 2", "Dato 3", "Dato 4"],
-            datasets: [{
-                label: "Datos de Ejemplo",
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
-                borderColor: "rgba(75, 192, 192, 1)",
-                borderWidth: 1,
-                data: [10, 20, 5, 15]
-            }]
-        };
+        function valoresRepesMuyAltos(arr) {
+            const indiceValoresMasRepesAltos = [];
 
-        // Configuración del gráfico de barras
-        var configGrafico = {
-            type: 'bar',
-            data: datosGrafico,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            for (let i = 0; i < arr.length; i++) {
+                const segundoValor = arr[i][1];
+
+                if (segundoValor > 0.5 * nfil && segundoValor < nfil) {
+                    const columnaInfo = {
+                        numeroColumna: i,
+                        valor: segundoValor
+                    };
+                    indiceValoresMasRepesAltos.push(columnaInfo);
                 }
             }
-        };
 
-        // Crear el gráfico
-        var ctx = document.getElementById("grafico").getContext("2d");
-        new Chart(ctx, configGrafico);
+            return indiceValoresMasRepesAltos;
+
+        }
+
+
+
     </script>
 
 

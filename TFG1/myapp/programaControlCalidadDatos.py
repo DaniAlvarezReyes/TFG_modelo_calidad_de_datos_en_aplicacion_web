@@ -176,7 +176,7 @@ def calcular_desviacion_tipica():
 
     for i in range(ncol):
         try:
-            if cantNum[i] != 0:  # Verificamos si hay algún numero en la columna
+            if cantNum[i] > 1:  # Verificamos si hay algún numero en la columna
                 num_values = df.iloc[:, i][np.array(arrNum)[:, i]]  # Filtramos los valores numéricos de la columna
                 desvTipica[i] = num_values.std()  # Calculamos la desviación estándar
         except:
@@ -205,10 +205,18 @@ def convertir_valores_no_serializables_en_serializables(value):
 
 
 def mediaGeneral():
-    if (len(medias) == 0):
-        return 0; #Devuelve 0 si el array está vacío para evitar la división por cero.
-    suma = sum(medias)
-    media = suma / len(medias)
+    media = 0
+    cantNum = 0
+    for i in range(ncol):
+        for j in range(nfil):
+            if(arrNum[j][i] == True):
+                try:
+                    media+=df.iloc[j,i]
+                    cantNum += 1
+                except:
+                    media+=0
+    if(media != 0):
+        media = media/cantNum   
     return media
 
 def obtener_tipos_de_datos():
@@ -240,13 +248,17 @@ def obtener_tipos_de_datos():
 
     return tipos_de_datos
 
-def calcularCalidad():
+def numeroTiposDiferentes():
     nDiferentesTipos = 0
     for i in range(ncol):
         if(mismoTipo[i] == False):
             nDiferentesTipos += 1
-    porcentajeMismoTipo = nDiferentesTipos/ncol
+    return nDiferentesTipos
 
+
+
+def calcularCalidad():
+    porcentajeMismoTipo = nDiferentesTipos/ncol
     calidad = gradoCompletitud[0] 
     y = calidad * porcentajeMismoTipo/2
     calidad -= y
@@ -285,7 +297,9 @@ if __name__ == "__main__":
         mediadeMedias = mediaGeneral()                  # MEDIA DE MEDIAS
         tipoDatos = obtener_tipos_de_datos()            # TIPOS DE DATOS DEL DATAFRAME COMPLETO
         mismoTipo = comprobarTipo()                     # ARRAY BOOLEANO PARA SABER SI LA COLUMNA ES DEL MISMO TIPO O NO
+        nDiferentesTipos = numeroTiposDiferentes()      # NÚMERO DE COLUMNAS CON DIFERENCIA DE TIPOS
         calidad = calcularCalidad()                     # PORCENTAJE DE CALIIDAD DEL FICHERO
+        
         #NO BORRAR
 
         # Cambiar los valores de int64 a int en la variable valoresMasRepes
@@ -294,7 +308,7 @@ if __name__ == "__main__":
                 converted_item = [convertir_valores_no_serializables_en_serializables(item[0]), convertir_valores_no_serializables_en_serializables(item[1])]
                 valoresMasRepesInt.append(converted_item)
             else:
-                valoresMasRepesInt.append(None)
+                valoresMasRepesInt.append(["None",0])
 
 
         processed_array = []
@@ -310,6 +324,7 @@ if __name__ == "__main__":
         processed_array.append(tipoDatos)
         processed_array.append(df.columns.tolist())
         processed_array.append(calidad)
+        processed_array.append(nDiferentesTipos)
         
             
         
